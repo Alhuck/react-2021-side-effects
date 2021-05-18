@@ -66,21 +66,24 @@ const Login = (props) => {
   //  })
 
 
-  // useEffect(()=> {
+  const {isValid: emailIsValid} = emailState;
+  const {isValid: pwdIsValid} = pwdState;
 
-  //   const handler = setTimeout( () => {
+  useEffect(()=> {
+
+    const handler = setTimeout( () => {
       
-  //     console.log('INSIDE SET TIMEOUT');
-  //     setFormIsValid(
-  //       emailState.val.includes('@') && enteredPassword.trim().length > 6
-  //     )
-  //   }, 500);
+      console.log('INSIDE SET TIMEOUT');
+      setFormIsValid(
+        emailIsValid && pwdIsValid
+      )
+    }, 500);
 
-  //   return () => {
-  //     console.log('INSIDE CLEANUP FUNCTION');
-  //     clearTimeout(handler);
-  //   };
-  // }, [enteredEmail, enteredPassword]);
+    return () => {
+      console.log('INSIDE CLEANUP FUNCTION');
+      clearTimeout(handler);
+    };
+  }, [emailIsValid, pwdIsValid]);
 
   const emailChangeHandler = (event) => {
 
@@ -90,10 +93,10 @@ const Login = (props) => {
     })
 
     
-    setFormIsValid(
-      // emailState.val.includes('@') && enteredPassword.trim().length > 6
-      emailState.isValid && pwdState.isValid
-    )
+    // setFormIsValid(
+    //   // emailState.val.includes('@') && enteredPassword.trim().length > 6
+    //   emailState.isValid && pwdState.isValid
+    // )
   };
 
   const passwordChangeHandler = (event) => {
@@ -103,10 +106,10 @@ const Login = (props) => {
       val: event.target.value
     });
 
-    setFormIsValid(
-      // emailState.val.includes('@') && enteredPassword.trim().length > 6
-      emailState.isValid && pwdState.isValid
-    )
+    // setFormIsValid(
+    //   // emailState.val.includes('@') && enteredPassword.trim().length > 6
+    //   emailState.isValid && pwdState.isValid
+    // )
   };
 
   const validateEmailHandler = () => {
