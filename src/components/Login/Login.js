@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useReducer, useContext } from 'react';
+import React, { useState, useEffect, useReducer, useContext, useRef } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
 import AuthContext from '../../store/auth-context';
+import Input from '../UI/Input/Input';
 
 
 const emailReducer = (state, action) => {
@@ -45,6 +46,8 @@ const pwdReducer = (prevState, action) => {
 const Login = () => {
 
 
+  const emailRef = useRef();
+  const pwdRef = useRef();
   const authCtx = useContext(AuthContext);
   // const [enteredEmail, setEnteredEmail] = useState('');
   // const [emailIsValid, setEmailIsValid] = useState();
@@ -135,7 +138,16 @@ const Login = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    authCtx.onLoginHandler(emailState.val, pwdState.val);
+
+    if(formIsValid) {
+      authCtx.onLoginHandler(emailState.val, pwdState.val);
+    } else if(!emailIsValid) {
+      emailRef.current.focus();
+    } else {
+      pwdRef.current.focus();
+    }
+
+    
   };
 
   return (
@@ -147,7 +159,8 @@ const Login = () => {
           }`}
         >
           <label htmlFor="email">E-Mail</label>
-          <input
+          <Input
+            ref={emailRef}
             type="email"
             id="email"
             value={emailState.val}
@@ -161,7 +174,8 @@ const Login = () => {
           }`}
         >
           <label htmlFor="password">Password</label>
-          <input
+          <Input
+            ref={pwdRef}
             type="password"
             id="password"
             value={pwdState.val}
@@ -170,7 +184,7 @@ const Login = () => {
           />
         </div>
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button type="submit" className={classes.btn}>
             Login
           </Button>
         </div>
